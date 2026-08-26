@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="tailwind/min.js"></script>
+	<title>Home</title>
+</head>
+
+<body class="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center justify-center relative font-sans"
+	  style="background-image: url('https://images.unsplash.com/photo-1707343843437-caacff5cfa74?q=80&w=1920');">
+
+	<!-- Camada de escurecimento sobre a imagem -->
+	<div class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+
+	<!-- Conteúdo principal centralizado -->
+	<main class="relative z-10 text-center px-4 max-w-screen-lg">
+		<h1 class="text-4xl sm:text-6xl font-extrabold text-white tracking-tight drop-shadow-md mb-4">
+			Musicale Aldrighi
+		</h1>
+		<p class="text-2xl text-gray-200 mb-8 drop-shadow-sm">
+			Aplicação para gerenciamento de escalas de aulas.
+		</p>
+
+		<!-- Botão Entrar -->
+		<a th:href="@{/escala}"
+		   class="inline-block bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-lg px-8 py-3.5 rounded-xl shadow-lg hover:shadow-indigo-500/30 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+			Entrar
+		</a>
+	</main>
+
+</body>
+
+</html>
