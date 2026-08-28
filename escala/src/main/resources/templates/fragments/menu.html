@@ -2,9 +2,9 @@
 <div th:fragment="menu">
 	<!-- Botão Hamburguer (Fixo no topo da tela) -->
 	<header class="fixed top-0 left-0 right-0 z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 px-4 py-3 flex items-center justify-between">
-		<h1 class="text-lg font-bold text-white tracking-wide"><a href="/" class="text-white hover:text-indigo-400">Musicale Aldrighi</a></h1>
+		<h1 class="text-lg font-bold text-white tracking-wide"><a href="/" class="text-white hover:text-yellow-400">Musicale Aldrighi</a></h1>
 
-		<button id="btn-menu" type="button" class="p-2 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-lg transition-colors cursor-pointer" aria-label="Abrir menu">
+		<button id="btn-menu" type="button" class="p-2 text-slate-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 rounded-lg transition-colors cursor-pointer" aria-label="Abrir menu">
 			<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
 			</svg>
@@ -20,7 +20,7 @@
 		<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
 			<!-- Cabeçalho do Modal -->
 			<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-				<h2 class="text-xl font-bold text-indigo-400">Menu</h2>
+				<h2 class="text-xl font-bold text-yellow-400">Menu</h2>
 				<button id="btn-fechar-menu" type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer">
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -30,26 +30,26 @@
 
 			<!-- Opções do Menu -->
 			<nav class="flex flex-col space-y-2">
-				<a th:href="@{/escala}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-indigo-600/20 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl transition-all font-medium">
-					<svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<a th:href="@{/escala}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-yellow-600/20 border border-slate-700/50 hover:border-yellow-500/50 rounded-xl transition-all font-medium">
+					<svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
 					</svg>
 					Escala
 				</a>
-				<a th:href="@{/alunos}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-indigo-600/20 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl transition-all font-medium">
-					<svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<a th:href="@{/aluno}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-yellow-600/20 border border-slate-700/50 hover:border-yellow-500/50 rounded-xl transition-all font-medium">
+					<svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
 					</svg>
 					Alunos
 				</a>
-				<a th:href="@{/aulas}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-indigo-600/20 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl transition-all font-medium">
-					<svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<a th:href="@{/aula}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-yellow-600/20 border border-slate-700/50 hover:border-yellow-500/50 rounded-xl transition-all font-medium">
+					<svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
 					</svg>
 					Aulas
 				</a>
-				<a th:href="@{/dias}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-indigo-600/20 border border-slate-700/50 hover:border-indigo-500/50 rounded-xl transition-all font-medium">
-					<svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<a th:href="@{/dia}" class="flex items-center gap-3 px-4 py-3 text-slate-200 hover:text-white bg-slate-800/50 hover:bg-yellow-600/20 border border-slate-700/50 hover:border-yellow-500/50 rounded-xl transition-all font-medium">
+					<svg class="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
 					</svg>
 					Dias

@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequestMapping("/escala")
-public class Escala {
+public class EscalaView {
 
 	private final HorarioComercialService horarioComercialService;
 
-	public Escala(HorarioComercialService horarioComercialService) {
+	public EscalaView(HorarioComercialService horarioComercialService) {
 		this.horarioComercialService = horarioComercialService;
 	}
 
