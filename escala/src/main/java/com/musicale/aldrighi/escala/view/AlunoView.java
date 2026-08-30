@@ -22,7 +22,7 @@ public class AlunoView {
 
 	@GetMapping("")
 	public String listar(ModelMap model) {
-		model.addAttribute("alunos", alunoService.listarTodos());
+		model.addAttribute("alunos", alunoService.buscarTodos());
 
 		return "aluno/listar";
 	}
