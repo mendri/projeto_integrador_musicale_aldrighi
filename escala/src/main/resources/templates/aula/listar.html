@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<script src="tailwind/min.js"></script>
-	<title>Escala</title>
+	<title>Aulas</title>
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center relative font-sans text-slate-100 p-6">
@@ -17,7 +17,7 @@
 		</h1>
 
 		<div class="flex justify-end mb-4">
-			<button type="button" class="flex items-center gap-2 px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='abrirModal(' + '\'modal-nova-aula\'' + ')'">
+			<button type="button" class="flex items-center gap-2 px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='abrirModal(' + '\'modal-nova-aula\'' + ')'">
 				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
 				</svg>
@@ -55,9 +55,9 @@
 						<p>Tem certeza que deseja excluir o aula <strong th:text="${aula.descricao}"></strong>?</p>
 
 						<div class="flex justify-end space-x-2 mt-4">
-							<button type="button" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='fecharModal(' + '\'modal-excluir-aula-' + ${aula.id} + '\')'">Cancelar</button>
+							<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='fecharModal(' + '\'modal-excluir-aula-' + ${aula.id} + '\')'">Cancelar</button>
 							<input type="hidden" name="_method" value="delete" />
-							<button type="button" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='excluirAula(' + ${aula.id} + ')'">Excluir</button>
+							<button type="button" class="px-2 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='excluirAula(' + ${aula.id} + ')'">Excluir</button>
 						</div>
 					</div>
 				</div>
@@ -82,8 +82,8 @@
 				</div>
 
 				<div class="flex justify-end space-x-2 mt-4">
-					<button type="button" class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-nova-aula')">Cancelar</button>
-					<button type="button" class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvar()">Salvar</button>
+					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-nova-aula')">Cancelar</button>
+					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvar()">Salvar</button>
 				</div>
 			</div>
 		</div>

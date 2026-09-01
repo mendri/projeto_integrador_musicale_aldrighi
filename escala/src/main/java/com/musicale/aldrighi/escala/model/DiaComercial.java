@@ -15,4 +15,6 @@ public class DiaComercial {
 
 	private String descricao;
 
+	private Boolean ativo;
+
 }

@@ -33,4 +33,8 @@ public class HorarioComercialService {
 		return diaComercialRepository.findAll();
 	}
 
+	public List<DiaComercial> buscarTodosDiasComerciaisAtivos() {
+		return diaComercialRepository.findAllByAtivoTrue();
+	}
+
 }

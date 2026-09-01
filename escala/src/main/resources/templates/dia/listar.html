@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="tailwind/min.js"></script>
+	<title>Dias e Horários Comerciais</title>
+</head>
+
+<body class="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center relative font-sans text-slate-100 p-6">
+	<div class="absolute inset-0 bg-slate-950/70 backdrop-blur-md"></div>
+	<div th:replace="~{fragments/menu :: menu}"></div>
+	<main class="relative z-10 w-full mx-auto space-y-6 pt-20 px-6 pb-10">
+		<h1 class="text-3xl font-extrabold text-center tracking-tight mb-8 text-white drop-shadow">
+			Dias e Horários Comerciais
+		</h1>
+
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+			<div th:each="entry : ${diasHorarios}"
+				 class="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-xl backdrop-blur-lg flex flex-col transition-all duration-300 hover:border-slate-500 hover:shadow-2xl">
+
+				<div class="border-b border-slate-700/60 pb-3 mb-4 flex items-center justify-between">
+					<h2 class="text-lg font-bold text-yellow-400 capitalize" th:text="${diasComerciais.get(entry.key).getDescricao()}"></h2>
+					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" aria-label="Editar" th:attr="onclick='iniciarEditarDiaComercial(' + ${entry.key} + ')'">
+						<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16.862 4.487l1.687 1.688a1.5 1.5 0 010 2.121l-9.192 9.192a2 2 0 01-.878.515l-3.5.875a.5.5 0 01-.617-.616l.875-3.5a2 2 0 01.515-.878l9.192-9.192a1.5 1.5 0 012.12 0zM15 5.5l3.5 3.5M4 20h16"></path>
+						</svg>
+					</button>
+				</div>
+
+				<ul class="space-y-2 flex-1">
+					<li th:each="horario : ${entry.value}" th:attr="onclick='abrirModal(' + '\'modal-escala-horario' + ${entry.key} + '-' + ${horario.id} + '\')'"
+						class="flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-yellow-800 border border-slate-700/60 rounded-xl py-2 px-3 text-sm font-medium text-slate-200 transition-colors cursor-pointer">
+
+						<svg class="w-4 h-4 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+						</svg>
+
+						<span th:text="${horario.horaInicio} + ' às ' + ${horario.horaFim}"></span>
+						<div class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300" th:id="'modal-escala-horario' + ${entry.key} + '-' + ${horario.id}">
+							<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+							<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+								<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+									<h2 class="text-xl font-bold text-yellow-400" th:text="'Detalhes do Horário: ' + ${horario.horaInicio} + ' às ' + ${horario.horaFim}"></h2>
+									<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" th:onclick="'fecharModal(' + '\'modal-escala-horario' + ${entry.key} + '-' + ${horario.id} + '\')'">
+										<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+										</svg>
+									</button>
+								</div>
+								<div class="space-y-2">
+									<p><strong>Dia Comercial:</strong> <span th:text="${horario.diaComercial.descricao}"></span></p>
+									<p><strong>Hora Início:</strong> <span th:text="${horario.horaInicio}"></span></p>
+									<p><strong>Hora Fim:</strong> <span th:text="${horario.horaFim}"></span></p>
+								</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div th:id="modal-editar-dia" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+			<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+			<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+				<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+					<h2 class="text-xl font-bold text-yellow-400" id="editar-dia-comercial-title">Editar Dia Comercial</h2>
+					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-editar-dia')">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					</button>
+				</div>
+				<div class="space-y-2 flex align-middle">
+					<label for="editar-dia-comercial-ativo" class="block text-sm font-medium text-slate-200">Ativo:</label>
+					<input type="checkbox" id="editar-dia-comercial-ativo" class="w-4 h-4 ml-2 text-yellow-400 bg-slate-800 border-slate-700/60 rounded focus:ring-yellow-400" style="margin-top: 0.15rem;" />
+				</div>
+				<div class="space-y-2">
+					<div class="flex justify-between">
+						<label for="editar-dia-comercial-horarios" class="block text-sm font-medium text-slate-200">Horários:</label>
+						<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="adicionarHorario()">
+							Adicionar Horário
+						</button>
+					</div>
+					<ul class="space-y-2 flex-1 mt-2" id="editar-dia-comercial-horarios"></ul>
+				</div>
+
+				<div class="flex justify-end space-x-2 mt-4">
+					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-editar-dia')">Cancelar</button>
+					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvarDiaComercial()">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<script src="util.js"></script>
+
+	<script th:inline="javascript">
+		let diasHorarios = /*[[${diasHorarios}]]*/ {};
+		let diasComerciais = /*[[${diasComerciais}]]*/ {};
+	</script>
+
+	<script src="dia_comercial.js"></script>
+</body>
+
+</html>

@@ -26,7 +26,7 @@ public class EscalaView {
 
 	@GetMapping("")
 	public String escala(ModelMap model) {
-		List<DiaComercial> diasComerciais = horarioComercialService.buscarTodosDiasComerciais();
+		List<DiaComercial> diasComerciais = horarioComercialService.buscarTodosDiasComerciaisAtivos();
 		Map<Long, List<HorarioComercial>> escalaMap = new HashMap<>();
 
 		for (DiaComercial dia : diasComerciais) {
