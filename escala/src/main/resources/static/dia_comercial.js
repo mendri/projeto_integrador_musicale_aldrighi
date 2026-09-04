@@ -26,4 +26,45 @@ function alimentarHorarios(diaId) {
 		`;
 		ulHorarios.appendChild(li);
 	})
+
+	document.getElementById('btn-adiciona-horario').removeAttribute('onclick');
+	document.getElementById('btn-adiciona-horario').setAttribute('onclick', `adicionarHorario(${diaId})`);
 }
+
+async function adicionarHorario(diaId) {
+	const horaInicio = prompt('Digite a hora de início (HH:mm):');
+	if (!horaInicio) return;
+	if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(horaInicio)) {
+		alert('Digite um horário válido no formato HH:mm.');
+		adicionarHorario(diaId);
+		return;
+	}
+	const horaFim = prompt('Digite a hora de fim (HH:mm):');
+	if (!horaFim) return;
+	if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(horaFim)) {
+		alert('Digite um horário válido no formato HH:mm.');
+		adicionarHorario(diaId);
+		return;
+	}
+
+	const response = await fetch(`/api/horario-comercial/${diaId}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ 'horaInicio': horaInicio, 'horaFim': horaFim, "diaComercialId": diaId })
+	});
+
+	const { message, horario } = await response.json();
+
+	if (response.ok) {
+		if (!diasHorarios[diaId]) {
+			diasHorarios[diaId] = [];
+		}
+		diasHorarios[diaId].push(horario);
+		alimentarHorarios(diaId);
+	} else {
+		alert(message);
+	}
+}
+
