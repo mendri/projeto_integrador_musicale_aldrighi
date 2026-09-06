@@ -12,6 +12,8 @@ import com.musicale.aldrighi.escala.model.DiaComercial;
 import com.musicale.aldrighi.escala.model.HorarioComercial;
 import com.musicale.aldrighi.escala.service.HorarioComercialService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -49,5 +51,19 @@ public class HorarioComercialController {
 		response.put("horario", null);
 
 		return ResponseEntity.status(400).body(response);
+	}
+
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deletarHorario(@PathVariable Long id) {
+		Map<String, Object> response = new HashMap<>();
+
+		try {
+			horarioService.deletar(id);
+			response.put("message", "Horário deletado com sucesso");
+			return ResponseEntity.status(200).body(response);
+		} catch (Exception e) {
+			response.put("message", e.getMessage());
+			return ResponseEntity.status(404).body(response);
+		}
 	}
 }

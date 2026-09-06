@@ -63,4 +63,11 @@ public class HorarioComercialService {
 	public boolean horarioValido(String horario) {
 		return horario != null && horario.matches(REGEX_HORARIO);
 	}
+
+	public void deletar(Long id) {
+		if (!repository.existsById(id)) {
+			throw new RuntimeException("Horário comercial não encontrado");
+		}
+		repository.deleteById(id);
+	}
 }

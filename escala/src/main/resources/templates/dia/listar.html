@@ -78,7 +78,7 @@
 				</div>
 				<div class="space-y-2">
 					<div class="flex justify-end">
-						<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="adicionarHorario()" id="btn-adiciona-horario">
+						<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="adicionarHorario()" id="btn-adiciona-horario">
 							Adicionar Horário
 						</button>
 					</div>
@@ -87,7 +87,7 @@
 
 				<div class="flex justify-end space-x-2 mt-4">
 					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-editar-dia')">Cancelar</button>
-					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvarDiaComercial()">Salvar</button>
+					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" id="btn-editar-dia" onclick="salvarDiaComercial()">Salvar</button>
 				</div>
 			</div>
 		</div>

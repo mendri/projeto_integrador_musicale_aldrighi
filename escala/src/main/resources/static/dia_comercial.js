@@ -3,7 +3,39 @@ function iniciarEditarDiaComercial(diaId) {
 	document.getElementById('editar-dia-comercial-ativo').checked = diasComerciais[diaId].ativo;
 
 	alimentarHorarios(diaId);
+
+	document.getElementById('btn-editar-dia').removeAttribute('onclick');
+	document.getElementById('btn-editar-dia').setAttribute('onclick', `salvarDiaComercial(${diaId})`);
+
+	if (diasComerciais[diaId].ativo) {
+		document.getElementById('btn-adiciona-horario').removeAttribute('disabled');
+	} else {
+		document.getElementById('btn-adiciona-horario').setAttribute('disabled', 'true');
+	}
+
 	abrirModal('modal-editar-dia');
+}
+
+async function salvarDiaComercial(diaId) {
+	const ativo = document.getElementById('editar-dia-comercial-ativo').checked;
+
+	let response = await fetch(`/api/dia-comercial/${diaId}`, {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ 'ativo': ativo })
+	});
+
+	const { message } = await response.json();
+
+	if (response.ok) {
+		diasComerciais[diaId].ativo = ativo;
+		alert('Dia comercial atualizado com sucesso!');
+		location.reload();
+	} else {
+		alert(message);
+	}
 }
 
 function alimentarHorarios(diaId) {
@@ -18,7 +50,7 @@ function alimentarHorarios(diaId) {
 		li.className = 'flex items-center justify-between py-2 border-b border-slate-700/60';
 		li.innerHTML = `
 			<span class="text-slate-200">${horario.horaInicio} - ${horario.horaFim}</span>
-			<button type="button" class="text-red-500 hover:text-red-700 p-1 rounded-lg cursor-pointer" aria-label="Remover" onclick="removerHorario(${horario.id})">
+			<button type="button" class="text-red-500 hover:text-red-700 p-1 rounded-lg cursor-pointer" aria-label="Remover" onclick="removerHorario(${horario.id}, ${diaId})">
 				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M6 18L18 6M6 6l12 12"></path>
 				</svg>
@@ -68,3 +100,17 @@ async function adicionarHorario(diaId) {
 	}
 }
 
+async function removerHorario(horarioId, diaId) {
+	const response = await fetch(`/api/horario-comercial/${horarioId}`, {
+		method: 'DELETE'
+	});
+
+	const { message } = await response.json();
+
+	if (response.ok) {
+		diasHorarios[diaId] = diasHorarios[diaId].filter(horario => horario.id !== horarioId);
+		alimentarHorarios(diaId);
+	} else {
+		alert(message);
+	}
+}

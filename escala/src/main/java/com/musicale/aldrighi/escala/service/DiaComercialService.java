@@ -20,4 +20,12 @@ public class DiaComercialService {
 		return repository.findAll();
 	}
 
+	public void editar(Long id, Boolean ativo) {
+		DiaComercial diaComercial = repository.findById(id)
+				.orElseThrow(() -> new RuntimeException("Dia comercial não encontrado"));
+		diaComercial.setAtivo(ativo);
+
+		repository.save(diaComercial);
+	}
+
 }
