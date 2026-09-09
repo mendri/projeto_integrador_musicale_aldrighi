@@ -18,4 +18,6 @@ public class Aula {
 
 	private String descricao;
 
+	private Boolean individual;
+
 }
