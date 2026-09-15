@@ -25,7 +25,7 @@
 				</div>
 
 				<ul class="space-y-2 flex-1">
-					<li th:each="horario : ${entry.value}" th:attr="onclick='abrirModal(' + '\'modal-escala-horario' + ${entry.key} + '-' + ${horario.id} + '\')'"
+					<li th:each="horario : ${entry.value}" th:attr="onclick='iniciarEditarEscala(' + ${entry.key} + ',' + ${horario.id} + ')' "
 						class="flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-yellow-800 border border-slate-700/60 rounded-xl py-2 px-3 text-sm font-medium text-slate-200 transition-colors cursor-pointer">
 
 						<svg class="w-4 h-4 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -55,9 +55,40 @@
 				</ul>
 			</div>
 		</div>
+		<div th:id="modal-editar-escala" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+			<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+			<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+				<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+					<h2 class="text-xl font-bold text-yellow-400" id="editar-escala-title">Editar Escala</h2>
+					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-editar-escala')">
+						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+						</svg>
+					</button>
+				</div>
+				<div class="space-y-2">
+					<div class="flex justify-end">
+						<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="adicionarAluno()" id="btn-adiciona-aluno">
+							Adicionar Aluno
+						</button>
+					</div>
+					<ul class="space-y-2 flex-1 mt-2" id="editar-escala-alunos"></ul>
+				</div>
+
+				<div class="flex justify-end space-x-2 mt-4">
+					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-editar-escala')">Cancelar</button>
+					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" id="btn-editar-escala" onclick="salvarEscala()">Salvar</button>
+				</div>
+			</div>
+		</div>
 	</main>
 
 	<script src="util.js"></script>
+	<script th:inline="javascript">
+		const escala = /*[[${escala}]]*/ {};
+		const horariosDisponiveis = /*[[${horariosDisponiveis}]]*/ {};
+	</script>
+	<script src="escala.js"></script>
 </body>
 
 </html>
