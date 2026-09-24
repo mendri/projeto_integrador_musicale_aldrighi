@@ -24,4 +24,14 @@ public class EscalaService {
 		return repository.findByHorarioComercialDiaComercialId(id);
 	}
 
+	public Escala salvar(Escala escala) {
+		Escala escalaSalva = repository.save(escala);
+		return repository.findById(escalaSalva.getId())
+				.orElseThrow(() -> new RuntimeException("Erro ao salvar a escala"));
+	}
+
+	public void remover(Long id) {
+		repository.deleteById(id);
+	}
+
 }

@@ -55,38 +55,69 @@
 				</ul>
 			</div>
 		</div>
-		<div th:id="modal-editar-escala" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-			<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
-			<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
-				<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-					<h2 class="text-xl font-bold text-yellow-400" id="editar-escala-title">Editar Escala</h2>
-					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-editar-escala')">
-						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-						</svg>
+	</main>
+
+	<div id="modal-editar-escala" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+		<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+		<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+			<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+				<h2 class="text-xl font-bold text-yellow-400" id="editar-escala-title">Editar Escala</h2>
+				<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-editar-escala')">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="space-y-2">
+				<div class="flex justify-end">
+					<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="iniciarAdicionarAluno()" id="btn-iniciar-adicionar-aluno">
+						Adicionar Aluno
 					</button>
 				</div>
-				<div class="space-y-2">
-					<div class="flex justify-end">
-						<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="adicionarAluno()" id="btn-adiciona-aluno">
-							Adicionar Aluno
-						</button>
-					</div>
-					<ul class="space-y-2 flex-1 mt-2" id="editar-escala-alunos"></ul>
-				</div>
-
-				<div class="flex justify-end space-x-2 mt-4">
-					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-editar-escala')">Cancelar</button>
-					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" id="btn-editar-escala" onclick="salvarEscala()">Salvar</button>
-				</div>
+				<ul class="space-y-2 flex-1 mt-2" id="editar-escala-alunos"></ul>
 			</div>
 		</div>
-	</main>
+	</div>
+
+	<div id="modal-adicionar-aluno" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+		<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+		<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+			<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+				<h2 class="text-xl font-bold text-yellow-400">Adicionar Aluno</h2>
+				<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-adicionar-aluno')">
+					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+					</svg>
+				</button>
+			</div>
+			<div class="space-y-2">
+				<label for="aluno-select" class="block text-sm font-medium text-slate-300">Selecione um Aluno:</label>
+				<select id="aluno-select" class="bg-slate-800 border border-slate-600 text-slate-300 placeholder:text-slate-50 text-sm rounded-lg focus:ring-blue-50 focus:border-blue-5 focus:outline-none block w-full p-2.5">
+					<option value="">Selecione um aluno</option>
+					<option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
+				</select>
+			</div>
+			<div class="space-y-2 mt-4">
+				<label for="aula-select" class="block text-sm font-medium text-slate-300">Selecione uma Aula:</label>
+				<select id="aula-select" class="bg-slate-800 border border-slate-600 text-slate-300 placeholder:text-slate-50 text-sm rounded-lg focus:ring-blue-50 focus:border-blue-5 focus:outline-none block w-full p-2.5">
+					<option value="">Selecione uma aula</option>
+					<option th:each="aula : ${aulas}" th:value="${aula.id}" th:text="${aula.descricao}"></option>
+				</select>
+			</div>
+
+			<div class="flex justify-end space-x-2 mt-4">
+				<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-adicionar-aluno')">Cancelar</button>
+				<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" id="btn-adicionar-aluno" onclick="adicionarAluno()">Adicionar</button>
+			</div>
+		</div>
+	</div>
 
 	<script src="util.js"></script>
 	<script th:inline="javascript">
 		const escala = /*[[${escala}]]*/ {};
 		const horariosDisponiveis = /*[[${horariosDisponiveis}]]*/ {};
+		const alunos = /*[[${alunos}]]*/ [];
+		const aulas = /*[[${aulas}]]*/ [];
 	</script>
 	<script src="escala.js"></script>
 </body>
