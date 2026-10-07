@@ -22,13 +22,13 @@ public class EscalaController {
 	}
 
 	@PostMapping("")
-	public ResponseEntity<Escala> adicionarEscala(@RequestBody Escala escala) {
+	public ResponseEntity<Escala> criar(@RequestBody Escala escala) {
 		Escala escalaSalva = escalaService.salvar(escala);
 		return ResponseEntity.created(null).body(escalaSalva);
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> removerEscala(@PathVariable Long id) {
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		escalaService.remover(id);
 		return ResponseEntity.noContent().build();
 	}
