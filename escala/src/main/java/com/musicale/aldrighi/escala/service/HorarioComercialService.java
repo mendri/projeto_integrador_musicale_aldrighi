@@ -36,7 +36,7 @@ public class HorarioComercialService {
 	}
 
 	public List<DiaComercial> buscarTodosDiasComerciaisAtivos() {
-		return diaComercialRepository.findAllByAtivoTrue();
+		return diaComercialRepository.findAllByAtivo(true);
 	}
 
 	public void salvar(HorarioComercial horarioComercial) {
