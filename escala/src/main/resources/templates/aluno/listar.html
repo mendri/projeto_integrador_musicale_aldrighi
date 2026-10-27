@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -11,17 +11,29 @@
 <body class="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center relative font-sans text-slate-100 p-6">
 	<div class="absolute inset-0 bg-slate-950/70 backdrop-blur-md"></div>
 	<div th:replace="~{fragments/menu :: menu}"></div>
-	<main class="relative z-10 w-full mx-auto space-y-6 pt-20 px-6 pb-10">
-		<h1 class="text-3xl font-extrabold text-center tracking-tight mb-8 text-white drop-shadow">
+	<main aria-labelledby="titulo-pagina" class="relative z-10 w-full mx-auto space-y-6 pt-20 px-6 pb-10">
+
+		<h1 id="titulo-pagina"
+			class="text-3xl font-extrabold text-center tracking-tight mb-8 text-white">
 			Alunos
 		</h1>
 
 		<div class="flex justify-end mb-4">
-			<button type="button" class="flex items-center gap-2 px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='abrirModal(' + '\'modal-novo-aluno\'' + ')'">
-				<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+			<button type="button"
+					class="flex items-center gap-2 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+					th:attr="onclick='abrirModal(' + '\'modal-novo-aluno\'' + ')'">
+				<svg aria-hidden="true"
+					 focusable="false"
+					 class="w-5 h-5"
+					 fill="none"
+					 stroke="currentColor"
+					 viewBox="0 0 24 24">
+					<path stroke-linecap="round"
+						  stroke-linejoin="round"
+						  stroke-width="2"
+						  d="M12 4v16m8-8H4" />
 				</svg>
-				Novo Aluno
+				Novo aluno
 			</button>
 		</div>
 
@@ -30,21 +42,30 @@
 				<div class="border-b border-slate-700/60 pb-3 mb-4 flex items-center justify-between">
 					<h2 class="text-lg font-bold text-yellow-400 capitalize" th:text="${aluno.nome}"></h2>
 
-					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" th:attr="onclick='abrirModal(' + '\'modal-excluir-aluno-' + ${aluno.id} + '\')'">
-						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-						</svg>
+					<button type="button"
+							class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+							th:attr="aria-label=|Excluir aluno ${aluno.nome}|, onclick=|abrirModal('modal-excluir-aluno-${aluno.id}')|">
+						<svg aria-hidden="true"
+							 focusable="false"
+							 class="w-6 h-6"
+							 fill="none"
+							 stroke="currentColor"
+							 viewBox="0 0 24 24">
 					</button>
 				</div>
 
-				<ul class="space-y-2 flex-1">
-				</ul>
+				<ul class="space-y-2 flex-1"></ul>
 
-				<div th:id="'modal-excluir-aluno-' + ${aluno.id}" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+				<div th:id="|modal-excluir-aluno-${aluno.id}|"
+					 role="dialog"
+					 aria-modal="true"
+					 th:attr="aria-labelledby=|titulo-excluir-${aluno.id}|, aria-describedby=|descricao-excluir-${aluno.id}|"
+					 tabindex="-1"
+					 class="fixed inset-0 z-50 flex items-center justify-center shidden opacity-0 transition-opacity duration-300">
 					<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
 					<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
 						<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-							<h2 class="text-xl font-bold text-yellow-400">Excluir Aluno</h2>
+							<h2 th:id="|titulo-excluir-${aluno.id}|" class="text-xl font-bold text-yellow-400">Excluir Aluno</h2>
 							<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" th:attr="onclick='fecharModal(' + '\'modal-excluir-aluno-' + ${aluno.id} + '\')'">
 								<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -52,7 +73,10 @@
 							</button>
 						</div>
 
-						<p>Tem certeza que deseja excluir o aluno <strong th:text="${aluno.nome}"></strong>?</p>
+						<p th:id="|descricao-excluir-${aluno.id}|">
+							Tem certeza que deseja excluir o aluno
+							<strong th:text="${aluno.nome}"></strong>?
+						</p>
 
 						<div class="flex justify-end space-x-2 mt-4">
 							<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" th:attr="onclick='fecharModal(' + '\'modal-excluir-aluno-' + ${aluno.id} + '\')'">Cancelar</button>
@@ -64,29 +88,37 @@
 			</div>
 		</div>
 
-		<div id="modal-novo-aluno" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-			<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
-			<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
-				<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-					<h2 class="text-xl font-bold text-yellow-400">Novo Aluno</h2>
-					<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-novo-aluno')">
-						<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-						</svg>
-					</button>
-				</div>
+		<form id="form-novo-aluno" onsubmit="salvar(event)">
+			<div id="modal-novo-aluno"
+				 role="dialog"
+				 aria-modal="true"
+				 aria-labelledby="titulo-modal-aluno"
+				 aria-describedby="descricao-modal-aluno"
+				 tabindex="-1"
+				 class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+				<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+				<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+					<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
+						<h2 class="text-xl font-bold text-yellow-400">Novo Aluno</h2>
+						<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-novo-aluno')">
+							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+							</svg>
+						</button>
+					</div>
 
-				<div>
-					<label for="nome" class="block text-sm font-medium text-slate-200">Nome:</label>
-					<input type="text" id="nome" name="nome" required class="mt-1 block w-full rounded-md bg-slate-800 border border-slate-700/50 text-slate-200 focus:border-yellow-500 focus:ring focus:ring-yellow-500 focus:ring-opacity-50">
-				</div>
+					<div>
+						<label for="nome" class="block text-sm font-medium text-slate-200">Nome:</label>
+						<input type="text" id="nome" name="nome" required class="mt-1 block w-full rounded-md bg-slate-800 border border-slate-700/50 text-slate-200 focus:border-yellow-500 focus:ring focus:ring-yellow-500 focus:ring-opacity-50">
+					</div>
 
-				<div class="flex justify-end space-x-2 mt-4">
-					<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-novo-aluno')">Cancelar</button>
-					<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvar()">Salvar</button>
+					<div class="flex justify-end space-x-2 mt-4">
+						<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-novo-aluno')">Cancelar</button>
+						<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvar()">Salvar</button>
+					</div>
 				</div>
 			</div>
-		</div>
+		</form>
 	</main>
 
 	<script src="util.js"></script>
