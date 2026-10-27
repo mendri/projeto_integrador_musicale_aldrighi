@@ -8,6 +8,6 @@ import com.musicale.aldrighi.escala.model.DiaComercial;
 
 public interface IDiaComercial extends JpaRepository<DiaComercial, Long> {
 
-	List<DiaComercial> findAllByAtivoTrue();
+	List<DiaComercial> findAllByAtivo(Boolean ativo);
 
 }
