@@ -20,7 +20,7 @@
 
 		<div class="flex justify-end mb-4">
 			<button type="button"
-					class="flex items-center gap-2 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+					class="flex items-center gap-2 px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 cursor-pointer"
 					th:attr="onclick='abrirModal(' + '\'modal-novo-aluno\'' + ')'">
 				<svg aria-hidden="true"
 					 focusable="false"
@@ -43,14 +43,18 @@
 					<h2 class="text-lg font-bold text-yellow-400 capitalize" th:text="${aluno.nome}"></h2>
 
 					<button type="button"
-							class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+							class="cursor-pointer text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
 							th:attr="aria-label=|Excluir aluno ${aluno.nome}|, onclick=|abrirModal('modal-excluir-aluno-${aluno.id}')|">
 						<svg aria-hidden="true"
-							 focusable="false"
 							 class="w-6 h-6"
 							 fill="none"
 							 stroke="currentColor"
 							 viewBox="0 0 24 24">
+							<path stroke-linecap="round"
+								  stroke-linejoin="round"
+								  stroke-width="2"
+								  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
 					</button>
 				</div>
 
@@ -61,8 +65,8 @@
 					 aria-modal="true"
 					 th:attr="aria-labelledby=|titulo-excluir-${aluno.id}|, aria-describedby=|descricao-excluir-${aluno.id}|"
 					 tabindex="-1"
-					 class="fixed inset-0 z-50 flex items-center justify-center shidden opacity-0 transition-opacity duration-300">
-					<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+					 class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+					<div aria-hidden="true" class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
 					<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
 						<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
 							<h2 th:id="|titulo-excluir-${aluno.id}|" class="text-xl font-bold text-yellow-400">Excluir Aluno</h2>
@@ -100,7 +104,7 @@
 				<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
 					<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
 						<h2 class="text-xl font-bold text-yellow-400">Novo Aluno</h2>
-						<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-novo-aluno')">
+						<button type="button" class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 cursor-pointer" onclick="fecharModal('modal-novo-aluno')">
 							<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
@@ -108,13 +112,13 @@
 					</div>
 
 					<div>
-						<label for="nome" class="block text-sm font-medium text-slate-200">Nome:</label>
-						<input type="text" id="nome" name="nome" required class="mt-1 block w-full rounded-md bg-slate-800 border border-slate-700/50 text-slate-200 focus:border-yellow-500 focus:ring focus:ring-yellow-500 focus:ring-opacity-50">
+						<label for="nome" class="block text-sm font-medium text-slate-200">Nome do aluno:</label>
+						<input type="text" id="nome" name="nome" required class="mt-1 block w-full p-1 rounded-md bg-slate-800 border border-slate-700/50 text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300">
 					</div>
 
 					<div class="flex justify-end space-x-2 mt-4">
-						<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-novo-aluno')">Cancelar</button>
-						<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="salvar()">Salvar</button>
+						<button type="button" class="px-4 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 cursor-pointer" onclick="fecharModal('modal-novo-aluno')">Cancelar</button>
+						<button type="button" class="px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 cursor-pointer" onclick="salvar()">Salvar aluno</button>
 					</div>
 				</div>
 			</div>
