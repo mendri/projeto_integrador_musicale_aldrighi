@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8">
@@ -9,117 +9,344 @@
 </head>
 
 <body class="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center relative font-sans text-slate-100 p-6">
-	<div class="absolute inset-0 bg-slate-950/70 backdrop-blur-md"></div>
+
+	<div aria-hidden="true"
+		 class="absolute inset-0 bg-slate-950/70 backdrop-blur-md">
+	</div>
+
 	<div th:replace="~{fragments/menu :: menu}"></div>
-	<main class="relative z-10 w-full mx-auto space-y-6 pt-20 px-6 pb-10">
-		<h1 class="text-3xl font-extrabold text-center tracking-tight mb-8 text-white drop-shadow">
+
+	<main aria-labelledby="titulo-pagina"
+		  class="relative z-10 w-full mx-auto space-y-6 pt-20 px-6 pb-10">
+
+		<h1 id="titulo-pagina"
+			class="text-3xl font-extrabold text-center tracking-tight mb-8 text-white">
 			Escala de Horários
 		</h1>
 
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+
 			<div th:each="entry : ${horariosDisponiveis}"
 				 class="bg-slate-900/60 border border-slate-700/50 rounded-2xl p-5 shadow-xl backdrop-blur-lg flex flex-col transition-all duration-300 hover:border-slate-500 hover:shadow-2xl">
 
 				<div class="border-b border-slate-700/60 pb-3 mb-4 flex items-center justify-between">
-					<h2 class="text-lg font-bold text-yellow-400 capitalize" th:text="${entry.value[0] != null ? entry.value[0].diaComercial.descricao : 'Data não disponível'}"></h2>
+
+					<h2 class="text-lg font-bold text-yellow-400 capitalize"
+						th:text="${(entry.value != null && entry.value.size() > 0) ? entry.value[0].diaComercial.descricao : 'Data não disponível'}">
+					</h2>
+
 				</div>
 
-				<ul class="space-y-2 flex-1">
-					<li th:each="horario : ${entry.value}" th:attr="onclick='iniciarEditarEscala(' + ${entry.key} + ',' + ${horario.id} + ')' "
-						class="flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-yellow-800 border border-slate-700/60 rounded-xl py-2 px-3 text-sm font-medium text-slate-200 transition-colors cursor-pointer">
+				<ul class="space-y-2 flex-1"
+					aria-label="Horários disponíveis">
 
-						<svg class="w-4 h-4 text-yellow-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-						</svg>
+					<li th:each="horario : ${entry.value}">
 
-						<span th:text="${horario.horaInicio} + ' às ' + ${horario.horaFim}"></span>
-						<div class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300" th:id="'modal-escala-horario' + ${entry.key} + '-' + ${horario.id}">
-							<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+						<button type="button"
+								th:attr="aria-label=|Editar escala do horário ${horario.horaInicio} às ${horario.horaFim}|, onclick=|iniciarEditarEscala(${entry.key}, ${horario.id})|"
+								class="w-full flex items-center justify-center gap-2 bg-slate-800/80 hover:bg-yellow-800 border border-slate-700/60 rounded-xl py-3 px-3 text-sm font-medium text-slate-200 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900">
+
+							<svg aria-hidden="true"
+								 focusable="false"
+								 class="w-4 h-4 text-yellow-400 shrink-0"
+								 fill="none"
+								 viewBox="0 0 24 24"
+								 stroke-width="1.5"
+								 stroke="currentColor">
+
+								<path stroke-linecap="round"
+									  stroke-linejoin="round"
+									  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+							</svg>
+
+							<span th:text="${horario.horaInicio} + ' às ' + ${horario.horaFim}">
+							</span>
+
+						</button>
+
+						<!-- Modal de detalhes do horário -->
+						<div th:id="|modal-escala-horario${entry.key}-${horario.id}|"
+							 role="dialog"
+							 aria-modal="true"
+							 th:attr="aria-labelledby=|titulo-horario-${entry.key}-${horario.id}|, aria-describedby=|descricao-horario-${entry.key}-${horario.id}|"
+							 tabindex="-1"
+							 class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+
+							<div aria-hidden="true"
+								 class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm">
+							</div>
+
 							<div class="relative w-full max-w-sm mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+
 								<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-									<h2 class="text-xl font-bold text-yellow-400" th:text="'Detalhes do Horário: ' + ${horario.horaInicio} + ' às ' + ${horario.horaFim}"></h2>
-									<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" th:onclick="'fecharModal(' + '\'modal-escala-horario' + ${entry.key} + '-' + ${horario.id} + '\')'">
-										<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+									<h2 th:id="|titulo-horario-${entry.key}-${horario.id}|"
+										class="text-xl font-bold text-yellow-400"
+										th:text="'Detalhes do Horário: ' + ${horario.horaInicio} + ' às ' + ${horario.horaFim}">
+									</h2>
+
+									<button type="button"
+											class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+											th:attr="aria-label=|Fechar detalhes do horário ${horario.horaInicio} às ${horario.horaFim}|, onclick=|fecharModal('modal-escala-horario${entry.key}-${horario.id}')|">
+
+										<svg aria-hidden="true"
+											 focusable="false"
+											 class="w-6 h-6"
+											 fill="none"
+											 stroke="currentColor"
+											 viewBox="0 0 24 24">
+
+											<path stroke-linecap="round"
+												  stroke-linejoin="round"
+												  stroke-width="2"
+												  d="M6 18L18 6M6 6l12 12" />
 										</svg>
+
 									</button>
+
 								</div>
-								<div class="space-y-2">
-									<p><strong>Dia Comercial:</strong> <span th:text="${horario.diaComercial.descricao}"></span></p>
-									<p><strong>Hora Início:</strong> <span th:text="${horario.horaInicio}"></span></p>
-									<p><strong>Hora Fim:</strong> <span th:text="${horario.horaFim}"></span></p>
+
+								<div th:id="|descricao-horario-${entry.key}-${horario.id}|"
+									 class="space-y-3 text-slate-200">
+
+									<p>
+										<strong class="text-white">Dia Comercial:</strong>
+										<span th:text="${horario.diaComercial.descricao}"></span>
+									</p>
+
+									<p>
+										<strong class="text-white">Hora Início:</strong>
+										<span th:text="${horario.horaInicio}"></span>
+									</p>
+
+									<p>
+										<strong class="text-white">Hora Fim:</strong>
+										<span th:text="${horario.horaFim}"></span>
+									</p>
+
 								</div>
+
 							</div>
 						</div>
+
 					</li>
 				</ul>
+
 			</div>
 		</div>
+
 	</main>
 
-	<div id="modal-editar-escala" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-		<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+	<!-- Modal de edição da escala -->
+	<div id="modal-editar-escala"
+		 role="dialog"
+		 aria-modal="true"
+		 aria-labelledby="editar-escala-title"
+		 aria-describedby="descricao-editar-escala"
+		 tabindex="-1"
+		 class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+
+		<div aria-hidden="true"
+			 class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm">
+		</div>
+
 		<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+
 			<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-				<h2 class="text-xl font-bold text-yellow-400" id="editar-escala-title">Editar Escala</h2>
-				<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-editar-escala')">
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+				<h2 id="editar-escala-title"
+					class="text-xl font-bold text-yellow-400">
+					Editar Escala
+				</h2>
+
+				<button type="button"
+						aria-label="Fechar edição da escala"
+						class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+						onclick="fecharModal('modal-editar-escala')">
+
+					<svg aria-hidden="true"
+						 focusable="false"
+						 class="w-6 h-6"
+						 fill="none"
+						 stroke="currentColor"
+						 viewBox="0 0 24 24">
+
+						<path stroke-linecap="round"
+							  stroke-linejoin="round"
+							  stroke-width="2"
+							  d="M6 18L18 6M6 6l12 12" />
 					</svg>
+
 				</button>
+
 			</div>
+
+			<p id="descricao-editar-escala"
+			   class="text-slate-200 mb-4">
+				Consulte os alunos vinculados a este horário ou adicione um novo aluno à escala.
+			</p>
+
 			<div class="space-y-2">
+
 				<div class="flex justify-end">
-					<button type="button" class="text-sm ml-2 px-1 py-1 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-sm shadow-sm transition-colors cursor-pointer" onclick="iniciarAdicionarAluno()" id="btn-iniciar-adicionar-aluno">
+
+					<button type="button"
+							class="text-sm px-3 py-2 bg-yellow-600 hover:bg-yellow-700 disabled:bg-slate-700 disabled:hover:bg-slate-700 disabled:text-slate-400 disabled:cursor-not-allowed disabled:opacity-70 text-white font-semibold rounded-lg shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+							onclick="iniciarAdicionarAluno()"
+							id="btn-iniciar-adicionar-aluno">
+
 						Adicionar Aluno
 					</button>
+
 				</div>
-				<ul class="space-y-2 flex-1 mt-2" id="editar-escala-alunos"></ul>
+
+				<ul class="space-y-2 flex-1 mt-2"
+					id="editar-escala-alunos"
+					aria-label="Alunos vinculados ao horário">
+				</ul>
+
 			</div>
 		</div>
 	</div>
 
-	<div id="modal-adicionar-aluno" class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
-		<div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"></div>
+	<!-- Modal de adicionar aluno -->
+	<div id="modal-adicionar-aluno"
+		 role="dialog"
+		 aria-modal="true"
+		 aria-labelledby="titulo-adicionar-aluno"
+		 aria-describedby="descricao-adicionar-aluno"
+		 tabindex="-1"
+		 class="fixed inset-0 z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+
+		<div aria-hidden="true"
+			 class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm">
+		</div>
+
 		<div class="relative w-full max-w-lg mx-4 bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl p-6 transform scale-95 transition-transform duration-300">
+
 			<div class="flex items-center justify-between pb-4 border-b border-slate-700/60 mb-4">
-				<h2 class="text-xl font-bold text-yellow-400">Adicionar Aluno</h2>
-				<button type="button" class="text-slate-400 hover:text-white p-1 rounded-lg cursor-pointer" onclick="fecharModal('modal-adicionar-aluno')">
-					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+
+				<h2 id="titulo-adicionar-aluno"
+					class="text-xl font-bold text-yellow-400">
+					Adicionar Aluno
+				</h2>
+
+				<button type="button"
+						aria-label="Fechar adição de aluno"
+						class="text-slate-300 hover:text-white p-2 rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+						onclick="fecharModal('modal-adicionar-aluno')">
+
+					<svg aria-hidden="true"
+						 focusable="false"
+						 class="w-6 h-6"
+						 fill="none"
+						 stroke="currentColor"
+						 viewBox="0 0 24 24">
+
+						<path stroke-linecap="round"
+							  stroke-linejoin="round"
+							  stroke-width="2"
+							  d="M6 18L18 6M6 6l12 12" />
 					</svg>
+
 				</button>
-			</div>
-			<div class="space-y-2">
-				<label for="aluno-select" class="block text-sm font-medium text-slate-300">Selecione um Aluno:</label>
-				<select id="aluno-select" class="bg-slate-800 border border-slate-600 text-slate-300 placeholder:text-slate-50 text-sm rounded-lg focus:ring-blue-50 focus:border-blue-5 focus:outline-none block w-full p-2.5">
-					<option value="">Selecione um aluno</option>
-					<option th:each="aluno : ${alunos}" th:value="${aluno.id}" th:text="${aluno.nome}"></option>
-				</select>
-			</div>
-			<div class="space-y-2 mt-4">
-				<label for="aula-select" class="block text-sm font-medium text-slate-300">Selecione uma Aula:</label>
-				<select id="aula-select" class="bg-slate-800 border border-slate-600 text-slate-300 placeholder:text-slate-50 text-sm rounded-lg focus:ring-blue-50 focus:border-blue-5 focus:outline-none block w-full p-2.5">
-					<option value="">Selecione uma aula</option>
-					<option th:each="aula : ${aulas}" th:value="${aula.id}" th:text="${aula.descricao}"></option>
-				</select>
+
 			</div>
 
-			<div class="flex justify-end space-x-2 mt-4">
-				<button type="button" class="px-2 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" onclick="fecharModal('modal-adicionar-aluno')">Cancelar</button>
-				<button type="button" class="px-2 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors cursor-pointer" id="btn-adicionar-aluno" onclick="adicionarAluno()">Adicionar</button>
-			</div>
+			<p id="descricao-adicionar-aluno"
+			   class="text-slate-200 mb-4">
+				Selecione um aluno e uma aula para adicioná-los ao horário escolhido.
+			</p>
+
+			<form id="form-adicionar-aluno"
+				  onsubmit="event.preventDefault(); adicionarAluno();">
+
+				<div class="space-y-2">
+
+					<label for="aluno-select"
+						   class="block text-sm font-medium text-slate-200">
+						Selecione um aluno:
+					</label>
+
+					<select id="aluno-select"
+							name="aluno"
+							required
+							class="bg-slate-800 border border-slate-600 text-white text-sm rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus:border-yellow-500 block w-full p-3">
+
+						<option value="">Selecione um aluno</option>
+
+						<option th:each="aluno : ${alunos}"
+								th:value="${aluno.id}"
+								th:text="${aluno.nome}">
+						</option>
+
+					</select>
+
+				</div>
+
+				<div class="space-y-2 mt-4">
+
+					<label for="aula-select"
+						   class="block text-sm font-medium text-slate-200">
+						Selecione uma aula:
+					</label>
+
+					<select id="aula-select"
+							name="aula"
+							required
+							class="bg-slate-800 border border-slate-600 text-white text-sm rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 focus:border-yellow-500 block w-full p-3">
+
+						<option value="">Selecione uma aula</option>
+
+						<option th:each="aula : ${aulas}"
+								th:value="${aula.id}"
+								th:text="${aula.descricao}">
+						</option>
+
+					</select>
+
+				</div>
+
+				<div class="flex justify-end gap-2 mt-4">
+
+					<button type="button"
+							class="px-4 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+							onclick="fecharModal('modal-adicionar-aluno')">
+						Cancelar
+					</button>
+
+					<button type="submit"
+							class="px-4 py-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg shadow-md transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300"
+							id="btn-adicionar-aluno">
+						Adicionar
+					</button>
+
+				</div>
+
+			</form>
+
 		</div>
+	</div>
+
+	<!-- Região para mensagens acessíveis -->
+	<div id="mensagem-acessivel"
+		 role="status"
+		 aria-live="polite"
+		 aria-atomic="true"
+		 class="sr-only">
 	</div>
 
 	<script src="util.js"></script>
+
 	<script th:inline="javascript">
 		const escala = /*[[${escala}]]*/ {};
 		const horariosDisponiveis = /*[[${horariosDisponiveis}]]*/ {};
-		const alunos = /*[[${alunos}]]*/ [];
-		const aulas = /*[[${aulas}]]*/ [];
+		const alunos = /*[[${alunos}]]*/[];
+		const aulas = /*[[${aulas}]]*/[];
 	</script>
+
 	<script src="escala.js"></script>
+
 </body>
 
 </html>

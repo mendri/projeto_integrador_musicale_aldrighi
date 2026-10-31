@@ -34,6 +34,10 @@ function alimentarAlunos(horario) {
 }
 
 function iniciarAdicionarAluno(horarioComercialId, diaComercialId) {
+	const formulario = document.getElementById('form-adicionar-aluno');
+	formulario.dataset.horarioComercialId = horarioComercialId;
+	formulario.dataset.diaComercialId = diaComercialId;
+
 	document.getElementById('btn-adicionar-aluno').removeAttribute('onclick');
 	document.getElementById('btn-adicionar-aluno').setAttribute('onclick', `adicionarAluno(${horarioComercialId}, ${diaComercialId})`);
 
@@ -41,6 +45,9 @@ function iniciarAdicionarAluno(horarioComercialId, diaComercialId) {
 }
 
 async function adicionarAluno(horarioComercialId, diaComercialId) {
+	const formulario = document.getElementById('form-adicionar-aluno');
+	horarioComercialId = horarioComercialId || Number(formulario.dataset.horarioComercialId);
+	diaComercialId = diaComercialId || Number(formulario.dataset.diaComercialId);
 	const horario = horariosDisponiveis[diaComercialId].find(horario => horario.id === horarioComercialId);
 	let alunoId = document.getElementById('aluno-select').value;
 	let aulaId = document.getElementById('aula-select').value;

@@ -1,5 +1,6 @@
 let modalComFocoAtivo = null;
 let manipuladorDeTecladoDoModal = null;
+const pilhaDeModais = [];
 
 function obterElementosFocaveis(modal) {
 	return Array.from(modal.querySelectorAll(
@@ -57,6 +58,13 @@ function desativarTravaDeFoco(modal) {
 function abrirModal(modalId) {
 	const modal = document.getElementById(modalId);
 	if (modal) {
+		if (modalComFocoAtivo && modalComFocoAtivo !== modal) {
+			pilhaDeModais.push({
+				modal: modalComFocoAtivo,
+				elementoFoco: document.activeElement
+			});
+		}
+
 		modal.classList.remove('hidden');
 		modal.classList.remove('opacity-0');
 		modal.querySelector('.transform').classList.remove('scale-95');
@@ -77,12 +85,33 @@ function abrirModal(modalId) {
 function fecharModal(modalId) {
 	const modal = document.getElementById(modalId);
 	if (modal) {
+		const modalEraAtivo = modal === modalComFocoAtivo;
 		desativarTravaDeFoco(modal);
+		const indiceNaPilha = pilhaDeModais.findIndex((item) => item.modal === modal);
+		if (indiceNaPilha !== -1) {
+			pilhaDeModais.splice(indiceNaPilha, 1);
+		}
+
 		modal.classList.add('opacity-0');
 		modal.querySelector('.transform').classList.remove('scale-100');
 		modal.querySelector('.transform').classList.add('scale-95');
 		setTimeout(() => {
 			modal.classList.add('hidden');
 		}, 50);
+
+		if (modalEraAtivo) {
+			const modalAnterior = pilhaDeModais.pop();
+			if (modalAnterior && !modalAnterior.modal.classList.contains('hidden')) {
+				ativarTravaDeFoco(modalAnterior.modal);
+				const elementoFoco = modalAnterior.elementoFoco;
+				if (elementoFoco instanceof HTMLElement &&
+					modalAnterior.modal.contains(elementoFoco) &&
+					elementoFoco.offsetParent !== null) {
+					elementoFoco.focus();
+				} else {
+					modalAnterior.modal.focus();
+				}
+			}
+		}
 	}
 }
