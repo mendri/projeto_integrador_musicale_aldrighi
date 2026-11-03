@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.musicale.aldrighi.escala.model.DiaComercial;
 import com.musicale.aldrighi.escala.model.Escala;
 import com.musicale.aldrighi.escala.model.HorarioComercial;
+import com.musicale.aldrighi.escala.service.AlertaFeriadoService;
 import com.musicale.aldrighi.escala.service.AlunoService;
 import com.musicale.aldrighi.escala.service.AulaService;
 import com.musicale.aldrighi.escala.service.EscalaService;
@@ -30,11 +31,14 @@ public class EscalaView {
 
 	private final EscalaService escalaService;
 
-	public EscalaView(HorarioComercialService horarioComercialService, AlunoService alunoService, AulaService aulaService, EscalaService escalaService) {
+	private final AlertaFeriadoService alertaFeriadoService;
+
+	public EscalaView(HorarioComercialService horarioComercialService, AlunoService alunoService, AulaService aulaService, EscalaService escalaService, AlertaFeriadoService alertaFeriadoService) {
 		this.horarioComercialService = horarioComercialService;
 		this.alunoService = alunoService;
 		this.aulaService = aulaService;
 		this.escalaService = escalaService;
+		this.alertaFeriadoService = alertaFeriadoService;
 	}
 
 	@GetMapping("")
@@ -52,6 +56,7 @@ public class EscalaView {
 		model.addAttribute("horariosDisponiveis", horariosDisponiveisMap);
 		model.addAttribute("alunos", alunoService.buscarTodos());
 		model.addAttribute("aulas", aulaService.buscarTodos());
+		model.addAttribute("alertasFeriado", alertaFeriadoService.buscarAlertas());
 
 		return "escala";
 	}
