@@ -32,7 +32,7 @@
 				<div class="border-b border-slate-700/60 pb-3 mb-4 flex items-center justify-between">
 
 					<h2 class="text-lg font-bold text-yellow-400 capitalize"
-						th:text="${(entry.value != null && entry.value.size() > 0) ? entry.value[0].diaComercial.descricao : 'Data não disponível'}">
+						th:text="${(entry.value != null && entry.value.size() > 0) ? entry.value[0].diaComercial.descricao : 'Dia não comercial'}">
 					</h2>
 
 				</div>
@@ -134,6 +134,25 @@
 
 			</div>
 		</div>
+
+		<section th:if="${alertasFeriado != null and !alertasFeriado.isEmpty()}"
+				 aria-labelledby="titulo-feriados"
+				 class="bg-yellow-900/30 border border-yellow-700/50 rounded-2xl p-5 shadow-xl backdrop-blur-lg">
+
+			<h2 id="titulo-feriados"
+				class="text-lg font-bold text-yellow-400 mb-3">
+				Feriados nos próximos 60 dias que caem em dias de aula
+			</h2>
+
+			<ul class="space-y-2 text-slate-200">
+				<li th:each="alerta : ${alertasFeriado}">
+					<strong class="text-white" th:text="${alerta.data()}"></strong>
+					<span th:text="'- ' + ${alerta.nome()} + ' (' + ${alerta.diaComercial()} + ')'"></span>:
+					<span th:text="${alerta.totalAulas() == 0} ? 'nenhuma aula escalada.' : (${alerta.totalAulas()} + ' aula(s) escalada(s) para remarcar.')"></span>
+				</li>
+			</ul>
+
+		</section>
 
 	</main>
 
